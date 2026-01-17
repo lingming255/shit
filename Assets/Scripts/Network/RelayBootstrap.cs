@@ -25,6 +25,42 @@ public class RelayBootstrap : MonoBehaviour
             }
             status = "Connected. ID: " + AuthenticationService.Instance.PlayerId;
             isInit = true;
+
+            if (NetworkManager.Singleton != null)
+            {
+                // 监听：有人连进来了吗？ 
+                NetworkManager.Singleton.OnClientConnectedCallback += (clientId) => 
+                { 
+                    if (NetworkManager.Singleton.IsHost) 
+                    { 
+                        Debug.Log($"<color=green>[Host] 这里的房东：检测到新连接！Client ID: {clientId}</color>"); 
+                    } 
+                    else 
+                    { 
+                        Debug.Log($"<color=green>[Client] 这里的房客：我成功连上服务器了！我的 ID: {clientId}</color>"); 
+                    } 
+                }; 
+
+                // 监听：连接断开了吗？ 
+                NetworkManager.Singleton.OnClientDisconnectCallback += (clientId) => 
+                { 
+                    if (NetworkManager.Singleton.IsHost) 
+                    { 
+                        Debug.Log($"<color=red>[Host] 这里的房东：有个家伙断开了，ID: {clientId}</color>"); 
+                    } 
+                    else 
+                    { 
+                        // 如果我是客户端，收到了 Disconnect，说明我被踢了，或者网络炸了 
+                        Debug.LogError($"<color=red>[Client] 这里的房客：我与服务器断开连接了！(原因可能是 404, 超时, 或协议不匹配)</color>"); 
+                        
+                        // 👇 这里是关键！打印出为什么断开 
+                        if (NetworkManager.Singleton.DisconnectReason != string.Empty) 
+                        { 
+                            Debug.LogError($"[Client] 断开的具体原因: {NetworkManager.Singleton.DisconnectReason}"); 
+                        } 
+                    } 
+                }; 
+            }
         }
         catch (System.Exception e)
         {
