@@ -92,7 +92,8 @@ public class RelayBootstrap : MonoBehaviour
             status = "Starting Host...";
             
             var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
-            var relayServerData = new RelayServerData(allocation, "dtls");
+            // 🟢 改为 "wss" (WebSocket Secure):
+            var relayServerData = new RelayServerData(allocation, "wss"); 
             transport.SetRelayServerData(relayServerData);
 
             NetworkManager.Singleton.StartHost();
