@@ -92,7 +92,8 @@ public class RelayBootstrap : MonoBehaviour
             status = "Starting Host...";
             
             var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
-            transport.SetRelayServerData(new RelayServerData(allocation, "dtls"));
+            var relayServerData = new RelayServerData(allocation, "dtls");
+            transport.SetRelayServerData(relayServerData);
 
             NetworkManager.Singleton.StartHost();
             status = "Host Running. Code: " + joinCode;
@@ -116,7 +117,7 @@ public class RelayBootstrap : MonoBehaviour
             status = "Starting Client...";
             
             var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
-            transport.SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
+            transport.SetRelayServerData(new RelayServerData(joinAllocation, "wss"));
 
             NetworkManager.Singleton.StartClient();
             status = "Client Running";
