@@ -19,10 +19,14 @@ public class RelayBootstrap : MonoBehaviour
         try
         {
             await UnityServices.InitializeAsync();
+            if (this == null) return; // 🛑 防止退出播放模式后继续执行 (Zombie Task)
+
             if (!AuthenticationService.Instance.IsSignedIn)
             {
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
+                if (this == null) return;
             }
+            
             status = "Connected. ID: " + AuthenticationService.Instance.PlayerId;
             isInit = true;
 
@@ -150,7 +154,8 @@ public class RelayBootstrap : MonoBehaviour
         {
             status = "Joining Allocation...";
             JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(code);
-            
+            if (this == null) return;
+
             status = "Starting Client...";
             
             var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
