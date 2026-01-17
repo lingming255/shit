@@ -31,7 +31,15 @@ public class SimpleNetworkPlayer : NetworkBehaviour
     {
         if (IsOwner)
         {
-            Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            float x = 0, z = 0;
+            if (UnityEngine.InputSystem.Keyboard.current != null)
+            {
+                if (UnityEngine.InputSystem.Keyboard.current.aKey.isPressed) x -= 1;
+                if (UnityEngine.InputSystem.Keyboard.current.dKey.isPressed) x += 1;
+                if (UnityEngine.InputSystem.Keyboard.current.wKey.isPressed) z += 1;
+                if (UnityEngine.InputSystem.Keyboard.current.sKey.isPressed) z -= 1;
+            }
+            Vector3 move = new Vector3(x, 0, z);
             if (move.sqrMagnitude > 0.001f)
             {
                 SubmitPositionRequestServerRpc(move);
