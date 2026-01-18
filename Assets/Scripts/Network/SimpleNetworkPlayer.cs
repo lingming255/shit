@@ -134,10 +134,25 @@ public class SimpleNetworkPlayer : NetworkBehaviour, IDamageable
             }
         }
 
-        Vector3 move = new Vector3(x, 0, z);
-        if (move.sqrMagnitude > 0.001f)
+        // Convert to camera-relative movement
+        if (x != 0 || z != 0)
         {
-            SubmitPositionRequestServerRpc(move);
+            Vector3 moveDir;
+            if (CameraController.Instance != null)
+            {
+                // Use camera direction for movement
+                moveDir = CameraController.Instance.GetMovementDirection(x, z);
+            }
+            else
+            {
+                // Fallback to world space
+                moveDir = new Vector3(x, 0, z).normalized;
+            }
+            
+            if (moveDir.sqrMagnitude > 0.001f)
+            {
+                SubmitPositionRequestServerRpc(moveDir);
+            }
         }
     }
 

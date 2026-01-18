@@ -132,6 +132,8 @@ public class RelayBootstrap : MonoBehaviour
             status = "Starting Host...";
             
             var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+            // 🟢 启用 WebSockets (必须在 SetRelayServerData 之前)
+            transport.UseWebSockets = true;
             // 🟢 改为 "wss" (WebSocket Secure):
             var relayServerData = new RelayServerData(allocation, "wss"); 
             transport.SetRelayServerData(relayServerData);
@@ -159,6 +161,8 @@ public class RelayBootstrap : MonoBehaviour
             status = "Starting Client...";
             
             var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+            // 🟢 启用 WebSockets (必须在 SetRelayServerData 之前)
+            transport.UseWebSockets = true;
             transport.SetRelayServerData(new RelayServerData(joinAllocation, "wss"));
 
             NetworkManager.Singleton.StartClient();

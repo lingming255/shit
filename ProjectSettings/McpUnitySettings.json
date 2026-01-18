@@ -1,0 +1,13 @@
+{
+    "Port": 8090,
+    "RequestTimeoutSeconds": 120,
+    "AutoStartServer": true,
+    "EnableInfoLogs": true,
+    "NpmExecutablePath": "",
+    "AllowRemoteConnections": false,
+    "AutoStartMcpWebSocketServer": false,
+    "McpWebSocketPort": 3000,
+    "McpWebSocketHost": "0.0.0.0",
+    "AutoInstallDependencies": true,
+    "NpmInstallTimeoutSeconds": 300
+}
