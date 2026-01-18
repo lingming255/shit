@@ -120,8 +120,13 @@ public class Enemy : NetworkBehaviour, IDamageable
     public void TakeDamage(int amount)
     {
         if (!IsServer) return;
+
+        // Guard: Prevent double-death logic or operations on invalid objects
+        if (currentHp.Value <= 0 || !NetworkObject.IsSpawned) return;
+
         currentHp.Value -= amount;
         Debug.Log($"[Enemy] Took {amount} dmg. Current HP: {currentHp.Value}/{maxHp.Value}");
+        
         // Death handled in OnHpChanged or here.
         if (currentHp.Value <= 0)
         {
@@ -133,7 +138,12 @@ public class Enemy : NetworkBehaviour, IDamageable
             // "Physical simulation" -> Networked rigidbodies can be heavy.
             // Let's spawn a non-networked local prefab on all clients via ClientRpc.
             SpawnDebrisClientRpc(transform.position);
-            GetComponent<NetworkObject>().Despawn();
+            
+            // Final Safety Check: Ensure object is still valid before despawning
+            if (NetworkObject.IsSpawned)
+            {
+                NetworkObject.Despawn();
+            }
         }
     }
     
