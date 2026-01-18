@@ -91,7 +91,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1942442544
+  GlobalObjectIdHash: 0
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -149,17 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SimpleNetworkPlayer
   netColor:
     m_InternalValue: {r: 0, g: 0, b: 0, a: 0}
-  currentHp:
-    m_InternalValue: 0
-  isDead:
-    m_InternalValue: 0
   speed: 5
-  stats:
-    maxHp: 100
-    attackRange: 5
-    attackAngle: 90
-    attackDamage: 20
-    attackCooldown: 0.5
 --- !u!114 &2726704454411526528
 MonoBehaviour:
   m_ObjectHideFlags: 0
