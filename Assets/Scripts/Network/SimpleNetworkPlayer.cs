@@ -151,21 +151,25 @@ public class SimpleNetworkPlayer : NetworkBehaviour, IDamageable
     void RequestAttackServerRpc()
     {
         if (isDead.Value) return;
+        Debug.Log($"[Player] ServerRPC Attack Request received. Owner: {OwnerClientId}");
 
         // Hit Detection
         // Find all IDamageable in range
         Collider[] hits = Physics.OverlapSphere(transform.position, stats.attackRange);
+        Debug.Log($"[Player] Attack Hit Scan found {hits.Length} colliders at pos {transform.position}");
         foreach (var hit in hits)
         {
             if (hit.gameObject == gameObject) continue; // Don't hit self
-
+            
             Vector3 dir = (hit.transform.position - transform.position).normalized;
             // Angle check: Dot(A, B) = cos(theta)
             // If angle < half_fov, then Dot > cos(half_fov)
             if (Vector3.Dot(transform.forward, dir) >= Mathf.Cos(stats.attackAngle * 0.5f * Mathf.Deg2Rad))
             {
+                Debug.Log($"[Player] {hit.name} passed angle check.");
                 if (hit.TryGetComponent<IDamageable>(out var target))
                 {
+                    Debug.Log($"[Player] Dealing {stats.attackDamage} damage to {hit.name}");
                     target.TakeDamage(stats.attackDamage);
                     
                     // Visual Feedback
@@ -205,6 +209,7 @@ public class SimpleNetworkPlayer : NetworkBehaviour, IDamageable
         if (!IsServer || isDead.Value) return;
         
         currentHp.Value -= amount;
+        Debug.Log($"[Player] Took {amount} dmg. Current HP: {currentHp.Value}");
         if (currentHp.Value <= 0)
         {
             isDead.Value = true;

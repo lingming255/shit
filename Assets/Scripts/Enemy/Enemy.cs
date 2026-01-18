@@ -104,12 +104,14 @@ public class Enemy : NetworkBehaviour, IDamageable
     private void OnCollisionEnter(Collision other)
     {
         if (!IsServer) return;
+        Debug.Log($"[Enemy] Collision Enter with {other.gameObject.name}");
 
         if (other.gameObject.TryGetComponent<IDamageable>(out var victim))
         {
             // "High HP damage high"
             float ratio = (float)currentHp.Value / maxHp.Value;
             int dmg = Mathf.RoundToInt(baseDamage * Mathf.Lerp(0.5f, 2.0f, ratio));
+            Debug.Log($"[Enemy] Dealing {dmg} damage to {other.gameObject.name} (Ratio: {ratio:F2})");
             victim.TakeDamage(dmg);        
         }
     }
@@ -118,6 +120,7 @@ public class Enemy : NetworkBehaviour, IDamageable
     {
         if (!IsServer) return;
         currentHp.Value -= amount;
+        Debug.Log($"[Enemy] Took {amount} dmg. Current HP: {currentHp.Value}/{maxHp.Value}");
         // Death handled in OnHpChanged or here.
         if (currentHp.Value <= 0)
         {
