@@ -6,7 +6,7 @@ using System.IO;
 --------------------------------------------------
 1. Core ($f(x)$):
    - Move: Pos += Input * Speed * dt
-   - Attack: Fan Check (Dist < Range && Angle < Limit) -> Damage
+   - Attack: Fan Check (Dist < Range && Angle < Limit) -> Damage -> Visual Feedback (Flash Red then White)
    - Health: 0 -> Dead -> Respawn (Reset Pos/HP from JSON)
 2. Knobs:
    - attackRange, attackAngle, damage
@@ -216,7 +216,11 @@ public class SimpleNetworkPlayer : NetworkBehaviour, IDamageable
         Color old = r.material.color;
         r.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
-        r.material.color = old;
+        if (r == null)
+        {
+            yield break;
+        }
+        r.material.color = Color.white;
     }
 
     // IDamageable Implementation
