@@ -1,0 +1,7 @@
+{
+    "maxHp": 100,
+    "attackRange": 8.0,
+    "attackAngle": 120.0,
+    "attackDamage": 25,
+    "attackCooldown": 0.4
+}

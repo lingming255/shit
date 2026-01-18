@@ -69,3 +69,7 @@ Thumbs.db
 
 # Trae AI
 .trae/
+
+# MCPForUnity
+/[Aa]ssets/MCPForUnity/
+/[Aa]ssets/MCPForUnity.meta
