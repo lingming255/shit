@@ -27,7 +27,7 @@ public class SimpleNetworkPlayer : NetworkBehaviour, IDamageable
 
     public NetworkVariable<Color> netColor = new NetworkVariable<Color>();
     public NetworkVariable<int> currentHp = new NetworkVariable<int>();
-    public NetworkVariable<bool> isDead = new NetworkVariable<bool>(false);
+    public NetworkVariable<bool> isDead = new NetworkVariable<bool>();
 
     [Header("Movement")]
     public float speed = 5f;
@@ -52,6 +52,7 @@ public class SimpleNetworkPlayer : NetworkBehaviour, IDamageable
             netColor.Value = new Color(Random.value, Random.value, Random.value);
             LoadStatsFromJson(); // Server authority on stats
             currentHp.Value = stats.maxHp;
+            isDead.Value = false;
         }
 
         ApplyColor(netColor.Value);

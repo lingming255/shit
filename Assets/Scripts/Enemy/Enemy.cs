@@ -103,6 +103,7 @@ public class Enemy : NetworkBehaviour, IDamageable
 
     private void OnCollisionEnter(Collision other)
     {
+        Debug.Log($"[DEBUG CHECK] IsServer: {IsServer} | Self: {gameObject.name} | Collided with: {other.gameObject.name}");
         if (!IsServer) return;
         Debug.Log($"[Enemy] Collision Enter with {other.gameObject.name}");
 
